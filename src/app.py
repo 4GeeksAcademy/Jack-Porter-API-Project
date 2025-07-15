@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 # load the .env file variables
 CLIENT_ID= "62da616b1a484fde9deecc041b33429f"
-CLIENT_SECRET="DS12_API_Secret"
+CLIENT_SECRET="e7925298fa5a46ed82266cc7255cc519"
 
 load_dotenv()
 
@@ -26,17 +26,17 @@ results = spotify.artist_top_tracks(artist_id)["tracks"]
 top_songs = []
 for track in results:
     top_songs.append({
-        'name': t['name'],
-        'duration_min': t['duration_ms']['name'],
-        'popularity': t['popularity'],
-        'preview_url': t['preview_url'],})
+        'name': track['name'],
+        'duration_min': track['duration_ms']/60000,
+        'popularity': track['popularity'],
+        'external_urls': track['external_urls'],})
 
-track_df = pd.dataframe(top_songs)
+track_df = pd.DataFrame(top_songs)
 
-print(track_df(3))
+print(track_df.head(3))
 
 plt.scatter(track_df['duration_min'], track_df['popularity'])
 plt.xlabel('Duration (Min)')
 plt.ylabel('Popularity')
 plt.title('Comparison of Popularity and Song Length')
-plt.show()
+plt.savefig("Durationplt.jpg")
